@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue.js</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+    <div id='app'>
+        <!-- the syntax {{ data or methods object name }} can only be used for strings -->
+        <!-- v-once just renders the value once. if the value changes and the DOM is redisplayed
+            the old value is kept -->
+        <h1 v-once>{{ title }}</h1>
+        <p>{{ getTitle() }}</p>
+        <p>{{ overwriteTitle() }}</p>
+        <!-- for dynamic html attributes we need to use v-bind:attributeName="data or methods object name" -->
+        <a v-bind:href="getLink()">Google</a>
+        {% comment %} v-bind can be shortened with just :attribute name, it's the same as above {% endcomment %}
+        <a :href="link">Google</a>
+        <hr>
+        <p>{{ finishedLink }}</p>
+        <!-- To render html code and not the string we need to use v-html directive -->
+        <p v-html='finishedLink'></p>
+
+    </div>
+</body>
+<script>
+    new Vue( {
+        el: '#app',
+        data: {
+            title: "Hello there!",
+            link: "http://www.google.com",
+            finishedLink: "<a href='http://google.com'>Google</a>"
+        },
+        methods: {
+            overwriteTitle: function() {
+                this.title = 'New Title'
+            },
+            getTitle: function() {
+                return this.title
+            },
+            getLink: function() {
+                return 'http:www.google.com'
+            }
+        }
+            
+    } )
+</script>
+</html>

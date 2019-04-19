@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src='vue.js'></script>
+    <title>Vue.js conditionals</title>
+</head>
+
+<body>
+    <div id='app'>
+        <!-- Displays paragraph only if data field show is true 
+            Note that v-if removes the element from the DOM. See v-show-->
+        <p v-if='show'>You can see me</p>
+        <!-- v-else refers to last v-if -->
+        <p v-else>Now you see me</p>
+        <!-- v-show is like v-if but it keeps the element in the DOM with display:none attribute -->
+        <p v-show='show'>Can you also see me</p>
+        <!-- On button click we set data filed show to the opposite value -->
+        <button @click='show = !show'>Switch</button>
+        <hr>
+
+        <ul>
+            <li v-for='ingredient in ingredients'>{{ ingredient }}</li>
+        </ul>
+        <!-- If we also need the index we simply put it in brackets. order is important, always 1. element 2. index -->
+        <ul>
+            <!-- Giving a key to the loop makes sure the whole array is tracked. If strange behaviour when
+                Adding, Removing etc. of array values, it can be fixed with the key attribute -->
+            <li v-for='(ingredient, i) in ingredients' :key='ingredient'>{{ ingredient}} ({{ i }})</li>
+        </ul>
+        <button @click='ingredients.push("spices")'>Add spices</button>
+        <hr>
+        <ul>
+            <!-- Looping through list of dictionary  -->
+            <li v-for='person in persons'>{{ person.name }}</li>
+        </ul>
+        <ul>
+            <!-- Nested v-for loops through the dictionary. Order important, always 1. value, 2. Keyname, 3. index -->
+            <li v-for='person in persons'>
+                <div v-for='(value, key, index) in person'>
+                    {{ key }}: {{ value }} ({{ index }})
+                </div>
+
+            </li>
+        </ul>
+        <!-- simple way to loop through a defined number. if the in value is a number it will loop until this number -->
+        <span v-for='n in 10'>{{ n }}</span>
+        <hr>
+        <!-- We can use template tag to group the output of the for loop in different tabs.
+            Can also be done with v-if, v-show to hide whole groups. -->
+        <template v-for='(ingredient, index) in ingredients'>
+            <h1>{{ ingredient }}</h1>
+            <p>{{ index }}</p>
+        </template>
+
+    </div>
+</body>
+
+<script>
+    new Vue( {
+        el: '#app',
+        data: {
+            show: true,
+            ingredients: ['meat', 'fruits', 'cookies'],
+            persons: [
+                        {name: 'Chris', age: 50, color: 'red'},
+                        {name: 'Marc', age: 'unknown', color: 'blue'}
+                    ],
+            
+        }
+    })
+</script>
+</html>

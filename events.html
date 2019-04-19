@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Event handler in vue.js</title>
+    <script src='vue.js'></script>
+</head>
+<body>
+    <div id='app'>
+        <!-- v-on:event can be any possible eventlistener for the DOM element we listen to
+            Vue automatically passes the event as an argument, no need to define it on call
+            If we need to pass other parameters to the function then we need to pass the event with
+            a reserved name for Vue, $event. In the recieving function it can be named any name, mostly event -->
+        <button v-on:click='increase(2, $event)'>Increase</button>
+        <hr>
+        <!-- We can also write javascript directly as long it only contains 1 expression -->
+
+        {% comment %} @method is short for v-on: {% endcomment %}
+        <button @click='number++'>Increase</button>
+        <!-- We even can use ternary expressions like below example -->
+        <p>Counter is: {{ number * 2 > 10 ? 'Greater than 10' : 'Smaller than 10'}}</p>
+        <p>The new number is: {{ number * 2 }}</p>
+
+        <p v-on:mousemove='updateCoordinates'>Coordinates: {{ x }} / {{ y }}
+            <!-- .eventModifier can be added to the eventListener. 
+                Here we stop the updateCoordinates when the mouse moves over this spot 
+                See https://vuejs.org/v2/guide/events.html#Event-Modifiers for a list of them-->
+
+                {% comment %} @method is short for v-on: {% endcomment %}
+            <span @mousemove.stop>DEAD SPOT</span>
+        </p>
+        <!-- .keyModifier can be added to the keylistner. Just name the key after the 
+            listener. In this example alert will be triggered on keyup only for 'enter', 'space' and 'a' -->
+        <input v-on:keyup.enter.space.a='alert' type="text">
+
+        <hr>
+        <!-- 2-way databinding is done with v-model
+            The 'name' object value in the Vue data object is displayed in the input tag
+            On change of the input field the 'name' object is updated in the Vue data object  -->
+        <input v-model="name" type="text">
+        <p>{{ name }}</p>
+
+    </div>
+
+</body>
+<script>
+    new Vue( {
+        el: '#app',
+        data: {
+            number: 0,
+            x: 0,
+            y: 0,
+            name: 'Chris'
+        },
+        methods: {
+            increase: function(step, event) {
+                this.number += step
+            },
+            updateCoordinates: function(event) {
+                this.x = event.clientX;
+                this.y = event.clientY
+            },
+            alert: function(event) {
+                alert("Alert!");
+            }
+
+        }
+    })
+</script>
+</html>
